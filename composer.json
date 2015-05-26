@@ -1,0 +1,43 @@
+{
+    "name": "iansltx/gcm-client",
+    "description": "A client for Google Cloud Messaging for Android's message API",
+    "keywords": [
+        "library", "gcm", "google", "push", "android"
+    ],
+    "homepage": "https://github.com/iansltx/gcm-client",
+    "license": "BSD-2-Clause",
+    "authors": [
+        {
+            "name": "Ian Littman",
+            "email": "iansltx@gmail.com",
+            "homepage": "http://yanntx.info",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php" : ">=5.4.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit" : "4.*",
+        "scrutinizer/ocular": "~1.1",
+        "codeclimate/php-test-reporter": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "iansltx\\GCMClient\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "iansltx\\GCMClient\\Test\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}
