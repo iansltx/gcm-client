@@ -51,14 +51,14 @@ class Client
      *
      * @param string|string[] $registration_ids
      * @param Message $message
-     * @return \stdClass
+     * @return MessageSendResult
      */
     public function sendToRegIds($registration_ids, Message $message)
     {
         $reqBody = $message->toArray();
         $reqBody['registration_ids'] = is_array($registration_ids) ? $registration_ids : [$registration_ids];
 
-        return $this->sendRequest(self::MESSAGE_URL, $reqBody);
+        return new MessageSendResult($this->sendRequest(self::MESSAGE_URL, $reqBody));
     }
 
     /**
@@ -66,14 +66,14 @@ class Client
      *
      * @param string $key
      * @param Message $message
-     * @return \stdClass
+     * @return MessageSendResult
      */
     public function sendToNotificationKey($key, Message $message)
     {
         $reqBody = $message->toArray();
         $reqBody['notification_key'] = $key;
 
-        return $this->sendRequest(self::MESSAGE_URL, $reqBody);
+        return new MessageSendResult($this->sendRequest(self::MESSAGE_URL, $reqBody));
     }
 
     /**
