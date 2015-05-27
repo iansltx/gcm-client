@@ -161,7 +161,7 @@ class Client
         $headers['Authorization'] = 'key=' . $this->apiKey;
         $res = $this->http->postJson($url, $body, $headers);
 
-        if ($res->getStatusCode() !== 200)
+        if (!$res->isSuccess())
             throw new \RuntimeException(json_encode($res->getBody()), $res->getStatusCode());
 
         return $res->getBody();

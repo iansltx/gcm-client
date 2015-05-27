@@ -93,7 +93,7 @@ class Message
         if ($this->delayWhileIdle !== null)
             $msg['delay_while_idle'] = $this->delayWhileIdle;
         if ($this->ttl !== null)
-            $msg['ttl'] = $this->ttl;
+            $msg['time_to_live'] = $this->ttl;
         if ($this->isDryRun !== null)
             $msg['dry_run'] = $this->isDryRun;
 

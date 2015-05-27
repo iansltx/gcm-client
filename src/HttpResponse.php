@@ -4,8 +4,8 @@ namespace iansltx\GCMClient;
 
 class HttpResponse
 {
-    protected $body = null;
-    protected $headers = null;
+    protected $body;
+    protected $headers = [];
     protected $lcHeaders = null;
     protected $status = null;
 
@@ -24,6 +24,11 @@ class HttpResponse
     public function getStatusCode()
     {
         return $this->status;
+    }
+
+    public function isSuccess()
+    {
+        return $this->status >= 200 && $this->status <= 399;
     }
 
     public function getHeaders()
