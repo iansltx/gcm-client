@@ -33,6 +33,7 @@ $message = new iansltx\GCMClient\Message(['title' => 'Notification', 'message' =
 
 // send directly to one or more Registration IDs
 $regIdResult = $client->sendToRegIds($message, ['regId1', 'regId2']);
+$singleRegIdResult = $client->sendToRegIds($message, 'regId3');
 
 // create a Notification Key for user-based messaging and send to that
 $nkClient = $client->withProjectId('myProjectId'); // a project ID is required for notification key manipulation
@@ -43,6 +44,9 @@ $nKeyResult = $client->sendToNotificationKey($key, $message); // could use $nkCl
 ```
 
 More examples coming soon; in the mean time, take a look at the docblocks of Client and Message for more information.
+
+Google recently changed the preferred location of the notification key field for their message-sending endpoint. This
+library has been updated to the new, non-deprecated, location.
 
 ## Testing
 
