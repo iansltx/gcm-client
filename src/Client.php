@@ -49,14 +49,14 @@ class Client
     /**
      * Sends a message to one or more devices identified by registration ID
      *
-     * @param string|string[] $registration_ids
+     * @param string|string[] $registration_ids if an array, sends as a multicast message
      * @param Message $message
      * @return MessageSendResult
      */
     public function sendToRegIds($registration_ids, Message $message)
     {
         $reqBody = $message->toArray();
-        $reqBody['registration_ids'] = is_array($registration_ids) ? $registration_ids : [$registration_ids];
+        $reqBody[!is_array($registration_ids) ? 'to' : 'registration_ids'] = $registration_ids;
 
         return new MessageSendResult($this->sendRequest(self::MESSAGE_URL, $reqBody));
     }
@@ -71,7 +71,7 @@ class Client
     public function sendToNotificationKey($key, Message $message)
     {
         $reqBody = $message->toArray();
-        $reqBody['notification_key'] = $key;
+        $reqBody['to'] = $key;
 
         return new MessageSendResult($this->sendRequest(self::MESSAGE_URL, $reqBody));
     }
