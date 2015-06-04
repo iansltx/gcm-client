@@ -38,12 +38,25 @@ class MessageSendResult
 
     public function getCanonicalIds()
     {
-        return isset($this->raw->canonical_ids) ? $this->raw->canonicalIds : [];
+        return isset($this->raw->canonical_ids) && is_array($this->raw->canonical_ids)
+            ? $this->raw->canonicalIds : [];
     }
 
     public function getResultsArray()
     {
         return isset($this->raw->results) ? $this->raw->results : [];
+    }
+
+    public function getMessageIds()
+    {
+        $ids = [];
+        if (!isset($this->raw->results) || !is_array($this->raw->results)) {
+            return $ids;
+        }
+        foreach ($this->raw->results as $result) {
+            $ids[] = $result['message_id'];
+        }
+        return $ids;
     }
 
     public function getFailedRegistrationIds()
