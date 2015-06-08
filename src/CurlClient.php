@@ -32,7 +32,14 @@ class CurlClient implements HttpClientInterface
             throw new \RuntimeException('Empty response; ' . json_encode(curl_getinfo($ch)));
         }
 
-        list($rawHeaders, $body) = explode("\r\n\r\n", $res, 2);
+        // discard sets of headers prior to the final one...and make sure the body doesn't
+        // include stray headers (e.g. if running through a proxy that emits an initial 200
+        // on-connect)
+        $body = $res;
+        do {
+            list($rawHeaders, $body) = explode("\r\n\r\n", $body, 2);
+        } while (strpos($body, 'HTTP/') === 0 && strpos($body, "\r\n\r\n") !== false);
+
         $resHeaders = [];
         foreach (array_slice(explode("\r\n", $rawHeaders), 1) as $rawHeader) {
             list($key, $value) = explode(': ', $rawHeader, 2);
