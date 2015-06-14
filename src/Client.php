@@ -103,7 +103,7 @@ class Client
      * @param string $name only modify a notification key if it has the supplied name
      * @return string the modified notification key
      */
-    public function addToNotificationKey($key, array $registration_ids, $name = null)
+    public function addToNotificationKey($key, array $registration_ids, $name)
     {
         return $this->modifyNotificationKey('add', $key, $registration_ids, $name);
     }
@@ -116,7 +116,7 @@ class Client
      * @param string $name only modify a notification key if it has the supplied name
      * @return string the modified notification key
      */
-    public function removeFromNotificationKey($key, array $registration_ids, $name = null)
+    public function removeFromNotificationKey($key, array $registration_ids, $name)
     {
         return $this->modifyNotificationKey('remove', $key, $registration_ids, $name);
     }
@@ -130,18 +130,15 @@ class Client
      * @param string $name only modify a notification key if it has the supplied name
      * @return string the modified notification key
      */
-    protected function modifyNotificationKey($op, $key, array $registration_ids, $name = null)
+    protected function modifyNotificationKey($op, $key, array $registration_ids, $name)
     {
         if (!$this->projectId)
             throw new \InvalidArgumentException('Missing project ID. Use ->withProjectId().');
 
-        $body = ['operation' => $op, 'notification_key' => $key, 'registration_ids' => $registration_ids];
-
-        if ($name !== null)
-            $body['notification_key_name'] = $name;
-
-        return $this->sendRequest(self::NOTIFICATION_KEY_URL, $body, ['project_id' => $this->projectId])
-            ->notification_key;
+        return $this->sendRequest(self::NOTIFICATION_KEY_URL, [
+            'notification_key' => $key, 'notification_key_name' => $name,
+            'operation' => $op, 'registration_ids' => $registration_ids,
+        ], ['project_id' => $this->projectId])->notification_key;
     }
 
     /**
