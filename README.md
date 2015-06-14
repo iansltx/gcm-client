@@ -38,15 +38,17 @@ $singleRegIdResult = $client->sendToRegIds($message, 'regId3');
 // create a Notification Key for user-based messaging and send to that
 $nkClient = $client->withProjectId('myProjectId'); // a project ID is required for notification key manipulation
 $key = $nkClient->createNotificationKey('myUniqueKeyName', ['regId1', 'regId2']);
-$nkClient->addToNotificationKey($key, ['regId3']); // returns the notification key
-$nkClient->removeFromNotificationKey($key, ['regId1']); // returns the notification key
+$nkClient->addToNotificationKey($key, ['regId3'], 'myUniqueKeyName'); // returns the notification key
+$nkClient->removeFromNotificationKey($key, ['regId1'], 'myUniqueKeyName'); // returns the notification key
 $nKeyResult = $client->sendToNotificationKey($key, $message); // could use $nkClient to send as well
 ```
 
 More examples coming soon; in the mean time, take a look at the docblocks of Client and Message for more information.
 
 Google recently changed the preferred location of the notification key field for their message-sending endpoint. This
-library has been updated to the new, non-deprecated, location.
+library has been updated to the new, non-deprecated, location. Additionally, it looks like they're requiring names
+when updating notification keys now; this used to be optional, hence its placement as the last parameter in the calls
+above.
 
 ## Testing
 
