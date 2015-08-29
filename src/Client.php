@@ -56,7 +56,9 @@ class Client
     public function sendToRegIds($registration_ids, Message $message)
     {
         $reqBody = $message->toArray();
-        $reqBody[!is_array($registration_ids) ? 'to' : 'registration_ids'] = $registration_ids;
+        is_array($registration_ids) ?
+            ($reqBody['registration_ids'] = array_values($registration_ids)) :
+            ($reqBody['to'] = $registration_ids);
 
         return new MessageSendResult($this->sendRequest(self::MESSAGE_URL, $reqBody));
     }
@@ -91,7 +93,7 @@ class Client
         return $this->sendRequest(self::NOTIFICATION_KEY_URL, [
             'operation' => 'create',
             'notification_key_name' => $name,
-            'registration_ids' => $registration_ids
+            'registration_ids' => array_values($registration_ids)
         ], ['project_id' => $this->projectId])->notification_key;
     }
 
@@ -105,7 +107,7 @@ class Client
      */
     public function addToNotificationKey($key, array $registration_ids, $name)
     {
-        return $this->modifyNotificationKey('add', $key, $registration_ids, $name);
+        return $this->modifyNotificationKey('add', $key, array_values($registration_ids), $name);
     }
 
     /**
@@ -118,7 +120,7 @@ class Client
      */
     public function removeFromNotificationKey($key, array $registration_ids, $name)
     {
-        return $this->modifyNotificationKey('remove', $key, $registration_ids, $name);
+        return $this->modifyNotificationKey('remove', $key, array_values($registration_ids), $name);
     }
 
     /**
@@ -137,7 +139,7 @@ class Client
 
         return $this->sendRequest(self::NOTIFICATION_KEY_URL, [
             'notification_key' => $key, 'notification_key_name' => $name,
-            'operation' => $op, 'registration_ids' => $registration_ids,
+            'operation' => $op, 'registration_ids' => array_values($registration_ids),
         ], ['project_id' => $this->projectId])->notification_key;
     }
 
