@@ -2,28 +2,22 @@
 
 namespace iansltx\GCMClient\Test;
 
-use iansltx\GCMClient\Client;
-use iansltx\GCMClient\CurlClient;
-use iansltx\GCMClient\Message;
+use iansltx\GCMClient\{Client, CurlClient, HttpClientInterface, HttpResponse, Message};
+use PHPUnit\Framework\TestCase;
 
-class ClientTest extends \PHPUnit_Framework_TestCase
+class ClientTest extends TestCase
 {
-    const CLIENT_CLASS = 'iansltx\GCMClient\Client';
-    const CURL_CLIENT_CLASS = 'iansltx\GCMClient\CurlClient';
-    const HTTP_CLIENT_IFACE = 'iansltx\GCMClient\HttpClientInterface';
-    const HTTP_RESPONSE_CLASS = 'iansltx\GCMClient\HttpResponse';
-
     public function testCreateAndClone()
     {
         $client = new Client('FAKE_API_KEY');
-        $this->assertInstanceOf(self::CLIENT_CLASS, $client);
+        $this->assertInstanceOf(Client::class, $client);
 
         $clientWithProject = $client->withProjectId('FAKE_PROJECT_ID');
-        $this->assertInstanceOf(self::CLIENT_CLASS, $clientWithProject);
+        $this->assertInstanceOf(Client::class, $clientWithProject);
         $this->assertNotSame($clientWithProject, $client);
 
         $newClient = new Client('FAKE_API_KEY', 'FAKE_PROJECT_ID');
-        $this->assertInstanceOf(self::CLIENT_CLASS, $newClient);
+        $this->assertInstanceOf(Client::class, $newClient);
         $this->assertEquals($newClient, $clientWithProject);
         $this->assertEquals($newClient->getProjectId(), $clientWithProject->getProjectId());
     }
@@ -51,11 +45,11 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $url = 'http://httpbin.org/post';
 
         $curl = new CurlClient();
-        $this->assertInstanceOf(self::CURL_CLIENT_CLASS, $curl);
-        $this->assertInstanceOf(self::HTTP_CLIENT_IFACE, $curl);
+        $this->assertInstanceOf(CurlClient::class, $curl);
+        $this->assertInstanceOf(HttpClientInterface::class, $curl);
 
         $responseObj = $curl->postJson($url, ['json' => 'json'], ['Test' => 'test']);
-        $this->assertInstanceOf(self::HTTP_RESPONSE_CLASS, $responseObj);
+        $this->assertInstanceOf(HttpResponse::class, $responseObj);
         $this->assertEquals(200, $responseObj->getStatusCode());
         $this->assertTrue($responseObj->isSuccess());
         $this->assertInstanceOf('\stdClass', $responseObj->getBody());
@@ -70,7 +64,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('application/json', $responseObj->getHeader('content-type'));
 
         $responseArr = $curl->postJson($url, ['json' => 'json'], ['Test' => 'test'], JSON_OBJECT_AS_ARRAY);
-        $this->assertInstanceOf(self::HTTP_RESPONSE_CLASS, $responseArr);
+        $this->assertInstanceOf(HttpResponse::class, $responseArr);
         $this->assertArrayHasKey('headers', $responseArr->getBody());
         $this->assertEquals('test', $responseArr->getBody()['headers']['Test']);
         $this->assertArrayHasKey('json', $responseArr->getBody());
@@ -80,14 +74,14 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     /** @medium */
     public function testCurlNotJson()
     {
-        $this->setExpectedException('\RuntimeException');
-        (new CurlClient())->postJson('http://curlmyip.com', [], []);
+        $this->expectException('\RuntimeException');
+        (new CurlClient())->postJson('http://example.com', [], []);
     }
 
     /** @medium */
     public function testCurlNoResponse()
     {
-        $this->setExpectedException('\RuntimeException');
+        $this->expectException('\RuntimeException');
         (new CurlClient())->postJson('http://local.nxdomain', [], []);
     }
 }

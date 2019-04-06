@@ -1,7 +1,11 @@
 # Changelog
 
-All Notable changes to `iansltx\gcm-client` will be documented in this file
+All Notable changes to `iansltx/gcm-client` will be documented in this file
 
-## NEXT
+## 1.0
 
-Initial release.
+Switched to FCM endpoints, bumped required PHP version to 7.2, including PHPUnit upgrade.
+
+## Untagged
+
+Initial release

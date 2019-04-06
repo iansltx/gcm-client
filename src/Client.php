@@ -4,7 +4,9 @@ namespace iansltx\GCMClient;
 
 class Client
 {
-    const MESSAGE_URL = 'https://android.googleapis.com/gcm/send';
+    // See https://firebase.google.com/docs/cloud-messaging/http-server-ref
+    const MESSAGE_URL = 'https://fcm.googleapis.com/fcm/send';
+    // See https://firebase.google.com/docs/cloud-messaging/android/device-group
     const NOTIFICATION_KEY_URL = 'https://android.googleapis.com/gcm/notification';
 
     protected $apiKey;

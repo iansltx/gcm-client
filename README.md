@@ -8,7 +8,7 @@ gcm-client is a PHP library for interacting with Google Cloud Messaging for Andr
 send messages to both Android Registration IDs and Notification Keys (for user-based multi-device messaging). It can
 also create and manipulate Notification Keys.
 
-This library should conform to PSRs 1, 2, and 4, and requires PHP 5.4 or newer.
+This library should conform to PSRs 1, 2, and 4, and requires PHP 7.2 or newer.
 
 ## Install
 
@@ -43,12 +43,16 @@ $nkClient->removeFromNotificationKey($key, ['regId1'], 'myUniqueKeyName'); // re
 $nKeyResult = $client->sendToNotificationKey($key, $message); // could use $nkClient to send as well
 ```
 
-More examples coming soon; in the mean time, take a look at the docblocks of Client and Message for more information.
+Take a look at the docblocks of Client and Message for more information.
 
-Google recently changed the preferred location of the notification key field for their message-sending endpoint. This
+Google changed the preferred location of the notification key field for their message-sending endpoint awhile back. This
 library has been updated to the new, non-deprecated, location. Additionally, it looks like they're requiring names
 when updating notification keys now; this used to be optional, hence its placement as the last parameter in the calls
 above.
+
+As of v1.0, this library uses Google's non-deprecated FCM legacy endpoints (their words, not mind), rather than the
+old GCM endpoints that'll go offline on or after May 29th, 2019. So, despite the name, this library can be used with
+Firebase Cloud Messaging after May 2019.
 
 ## Testing
 

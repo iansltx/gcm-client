@@ -54,6 +54,6 @@ class HttpResponse
             }
         }
 
-        return isset($this->lcHeaders[strtolower($name)]) ? $this->lcHeaders[strtolower($name)] : null;
+        return $this->lcHeaders[strtolower($name)] ?? null;
     }
 }

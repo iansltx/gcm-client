@@ -1,8 +1,8 @@
 {
     "name": "iansltx/gcm-client",
-    "description": "A client for Google Cloud Messaging for Android's message API",
+    "description": "A client for Firebase Cloud Messaging for Android's message API (via Legacy endpoints)",
     "keywords": [
-        "library", "gcm", "google", "push", "android"
+        "library", "gcm", "google", "push", "android", "firebase", "fcm"
     ],
     "homepage": "https://github.com/iansltx/gcm-client",
     "license": "BSD-2-Clause",
@@ -15,12 +15,13 @@
         }
     ],
     "require": {
-        "php" : ">=5.4.0"
+        "php" : "^7.2",
+        "ext-curl": "*",
+        "phpunit/phpunit": "^8.1",
+        "ext-json": "*"
     },
     "require-dev": {
-        "phpunit/phpunit" : "4.*",
-        "scrutinizer/ocular": "~1.1",
-        "codeclimate/php-test-reporter": "dev-master"
+        "scrutinizer/ocular": "^1.5.2"
     },
     "autoload": {
         "psr-4": {
