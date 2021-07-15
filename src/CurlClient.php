@@ -48,7 +48,7 @@ class CurlClient implements HttpClientInterface
 
         $decoded = json_decode($body, $decode_flags);
         if ($decoded === false || $decoded === null) {
-            throw new \RuntimeException('JSON decoding error: ' . json_last_error_msg());
+            throw new \RuntimeException('JSON decoding error: ' . json_last_error_msg() . '; ' . $body);
         }
 
         return new HttpResponse($decoded, $resHeaders, curl_getinfo($ch, CURLINFO_HTTP_CODE));
