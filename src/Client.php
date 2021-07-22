@@ -7,7 +7,7 @@ class Client
     // See https://firebase.google.com/docs/cloud-messaging/http-server-ref
     const MESSAGE_URL = 'https://fcm.googleapis.com/fcm/send';
     // See https://firebase.google.com/docs/cloud-messaging/android/device-group
-    const NOTIFICATION_KEY_URL = 'https://android.googleapis.com/gcm/notification';
+    const NOTIFICATION_KEY_URL = 'https://fcm.googleapis.com/fcm/notification';
 
     protected $apiKey;
     protected $projectId;
